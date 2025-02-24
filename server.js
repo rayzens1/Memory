@@ -27,15 +27,42 @@ const images = {
     "3": "images/cards/default/9p.png",
 };
 
-const cards = [1, 3, 3, 1, 2, 1, 2, 3, 1, 3, 1, 2, 3, 3, 2, 2, 3, 2, 1, 2, 3, 1, 3, 3, 3];
+const cardsTemplate = [2, 2, 1, 2, 3, 2, 3, 2, 2, 1, 3, 2, 3, 1, 3, 2, 1, 1, 3, 1, 1, 1, 1, 2, 1, 2, 3, 3, 3, 3, 1, 2, 2, 3, 1, 3];
+const cards = cardsTemplate.sort((a, b) => 0.5 - Math.random());
+let cardsFind = [];
 
 app.post('/get-image', (req, res) => {
     const { data } = req.body; // Récupère l'ID de la carte envoyée depuis le frontend
     const carteId = req.body.carteId;
     const imageKeys = Object.keys(images);
-    const randomImage = images[imageKeys[cards[carteId+1]]];
+    const randomImage = images[imageKeys[cards[carteId-1]]];
     
     res.json({ imagePath: randomImage });
+});
+
+app.post('/check-card', (req, res) => {
+    const { data } = req.body; // Récupère l'ID de la carte envoyée depuis le frontend
+    console.log(req.body)
+    const firstCardId = req.body.firstCardId;
+    const secondCardId = req.body.secondCardId;
+
+    if(cardsFind.includes(firstCardId) || cardsFind.includes(secondCardId)){
+        res.json({ status: 'error', message: 'Card already found' });
+        return;
+    }
+
+    if(firstCardId === secondCardId){
+        res.json({ status: 'ok', message: 'Same card', isSame: false });
+        return;
+    }
+    else if(cards[firstCardId-1] === cards[secondCardId-1]){
+        res.json({ status: 'ok', isSame: true });
+        cardsFind.push(firstCardId-1);
+        cardsFind.push(secondCardId-1);
+    } else {
+        res.json({ status: 'ok', isSame: false });
+    }
+    console.log(cardsFind)
 });
 
 // Démarrer le serveur

@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grille de Cartes</title>
+    <title>Memory</title>
     <style>
         body {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
             height: 100dvh;
             margin: 0;
             background-color: #f0f0f0;
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 10px;
             width: 90vw;
             max-width: 600px;
@@ -48,52 +49,72 @@
         .card-back {
             transform: rotateY(180deg);
         }
+        span {
+            margin-bottom: 15px;
+            transition: transform 0.6s;
+        }
+        .container {
+            top: 0;
+            position: fixed;
+        }
+        .container-points {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
+    <div class="container">
+        <div class="container-points"><h1>Points: </h1><h1 id="points">0</h1></div>
+        <!-- <span id="message"> Ceci est un test</span> -->
+    </div>
     <div class="grid">
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
-        <div class="card" onclick="flipCard(this)"><img class="card-back" src="images/cards/default/card.png" alt="Carte"><img src="images/cards/default/back.png" alt="Carte"></div>
+        
     </div>
     <script src="script.js"></script>
+    <script>
+        function createGrid(size) {
+            const grid = document.querySelector('.grid');
+
+            if(size%2==1) {
+                size = size + 1;
+            } 
+
+            size = size*size;
+
+            for (let i = 0; i < size; i++) {
+                console.log("i",i)
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('onclick', 'flipCard(this)');
+                card.innerHTML = `
+                    <img class="card-back" src="images/cards/default/card.png" alt="Carte">
+                    <img src="images/cards/default/back.png" alt="Carte">
+                `;
+                grid.appendChild(card);
+            }
+        }
+
+        // Créer la grille de carte
+        createGrid(6);
+    </script>
     <script>
         let firstCard;
         let secondCard;
         async function flipCard(card) {
-            
+
+            console.log("card",card)
             const carteId = card.getAttribute('data-id');
 
-            if(firstCard && secondCard) {
-                firstCard.classList.remove('flipped');
-                secondCard.classList.remove('flipped');
-                firstCard = null;
-                secondCard = null;
-                console.log('deux cartes déjà retournées');
-                return;
-            }
+            // if(firstCard && secondCard) {
+            //     firstCard.classList.remove('flipped');
+            //     secondCard.classList.remove('flipped');
+            //     firstCard = null;
+            //     secondCard = null;
+            //     console.log('deux cartes déjà retournées');
+            //     return;
+            // }
             try {
                 const response = await fetch('/get-image', {
                     method: 'POST',
@@ -116,9 +137,51 @@
                 secondCard = card;
                 card.classList.toggle('flipped');
                 console.log('deuxième carte retournée');
+                try {
+                    const response = await fetch('/check-card', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ carteId, firstCardId: firstCard.getAttribute('data-id'), secondCardId: secondCard.getAttribute('data-id') }),
+                    });
+
+                    const data = await response.json();
+                    
+                    if (data.status == "ok") {
+                        if(data.isSame) {
+                            console.log('Les cartes sont identiques ✅');
+                            document
+                            firstCard.onclick = null;
+                            secondCard.onclick = null;
+                            firstCard = null;
+                            secondCard = null;
+                            document.getElementById('points').innerText = parseInt(document.getElementById('points').innerText) + 1;
+                            // const message = document.getElementById('message');
+                            // message.innerText = 'Les cartes sont identiques ✅';
+                            // message.color = 'green';
+                            // setTimeout(() => {
+                            //     message.innerText = ' ';
+                            // }, 2000);
+                        } else {
+                            console.log('Les cartes sont différentes ❌');
+                            setTimeout(() => {
+                                firstCard.classList.remove('flipped');
+                                secondCard.classList.remove('flipped');
+                                firstCard = null;
+                                secondCard = null;
+                                firstCard.onclick = () => flipCard(firstCard);
+                                secondCard.onclick = () => flipCard(secondCard);
+                            }, 500);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la vérification :', error);
+                }
             } else { // Premier choix
                 firstCard = card;
                 card.classList.toggle('flipped');
+                card.classList.onclick = null;
                 console.log('première carte retournée');
             }
         }
