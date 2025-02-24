@@ -22,12 +22,19 @@ app.post('/execute-script', (req, res) => {
 });
 
 const images = {
-    "1": "images/cards/default/card.png",
-    "2": "images/cards/default/2p.png",
-    "3": "images/cards/default/9p.png",
+    "1": "images/cards/default/1.png",
+    "2": "images/cards/default/2.png",
+    "3": "images/cards/default/3.png",
+    "4": "images/cards/default/4.png",
+    "5": "images/cards/default/5.png",
+    "6": "images/cards/default/6.png",
+    "7": "images/cards/default/7.png",
+    "8": "images/cards/default/8.png",
+    "9": "images/cards/default/9.png",
+    "10": "images/cards/default/10.png",
 };
 
-const cardsTemplate = [2, 2, 1, 2, 3, 2, 3, 2, 2, 1, 3, 2, 3, 1, 3, 2, 1, 1, 3, 1, 1, 1, 1, 2, 1, 2, 3, 3, 3, 3, 1, 2, 2, 3, 1, 3];
+const cardsTemplate = [3, 7, 10, 2, 5, 1, 3, 2, 1, 1, 6, 6, 9, 9, 8, 2, 8, 10, 5, 1, 8, 4, 4, 4, 7, 5, 8, 4, 3, 7, 9, 3, 7, 5, 9, 2];
 const cards = cardsTemplate.sort((a, b) => 0.5 - Math.random());
 let cardsFind = [];
 

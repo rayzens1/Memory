@@ -89,7 +89,7 @@
                 card.className = 'card';
                 card.setAttribute('onclick', 'flipCard(this)');
                 card.innerHTML = `
-                    <img class="card-back" src="images/cards/default/card.png" alt="Carte">
+                    <img class="card-back" src="images/cards/default/1.png" alt="Carte">
                     <img src="images/cards/default/back.png" alt="Carte">
                 `;
                 grid.appendChild(card);
@@ -129,6 +129,8 @@
                 if (data.imagePath) {
                     const imgElement = card.querySelector('img');
                     imgElement.src = data.imagePath; // Changer l'image de la carte
+                } else {
+                    console.error('Aucun chemin d’image retourné');
                 }
             } catch (error) {
                 console.error('Erreur lors de la récupération de l’image :', error);
