@@ -136,6 +136,10 @@
                 console.error('Erreur lors de la récupération de l’image :', error);
             }
             if(firstCard) { // Deuxième choix
+                if(firstCard == card) {
+                    console.log('même carte');
+                    return;
+                }
                 secondCard = card;
                 card.classList.toggle('flipped');
                 console.log('deuxième carte retournée');
