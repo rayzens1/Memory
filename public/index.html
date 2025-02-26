@@ -169,7 +169,13 @@
         </div>
     </div>
     <div class="container">
-        <div class="container-points"><h1>Points: </h1><h1 id="points">0</h1></div>
+        <div class="container-points">
+            <h1>Points: </h1>
+            <h1 id="points">0</h1>
+            <h1 style="visibility: hidden;">sp</h1>
+            <h1>Coups: </h1>
+            <h1 id="hits">0</h1>
+        </div>
         <!-- <span id="message"> Ceci est un test</span> -->
     </div>
     <div class="grid">
@@ -274,6 +280,7 @@
                 secondCard = card;
                 card.classList.toggle('flipped');
                 console.log('deuxième carte retournée');
+                document.getElementById('hits').innerText = parseInt(document.getElementById('hits').innerText) + 1;
                 try {
                     const response = await fetch('/check-card', {
                         method: 'POST',
@@ -348,8 +355,13 @@
             cardsList.forEach(card => {
                 card.classList.remove('flipped');
                 card.setAttribute('onclick', 'flipCard(this)');
-                card.querySelector('img').src = 'images/cards/default/bingus.png';
+                setTimeout(() => {
+                    card.querySelector('img').src = 'images/cards/default/bingus.png';
+                }, 200);
             });
+
+            document.getElementById('points').innerText = parseInt(0);
+            document.getElementById('hits').innerText = parseInt(0);
         });
 
         const toggleButton = document.getElementById('toggleDarkMode');
