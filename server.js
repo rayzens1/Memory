@@ -44,10 +44,17 @@ const images = {
 
 let cardsTemplate = [3, 7, 10, 2, 5, 1, 3, 2, 1, 1, 6, 6, 9, 9, 8, 2, 8, 10, 5, 1, 8, 4, 4, 4, 7, 5, 8, 4, 3, 7, 9, 3, 7, 5, 9, 2];
 let cards = shuffle(cardsTemplate);
+console.log(cards)
 let cardsFind = [];
 
 function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
+    for (let i = array.length - 1; i > 0; i--) {
+      // Choisir un index aléatoire entre 0 et i
+      const j = Math.floor(Math.random() * (i + 1));
+      // Echanger l'élément à l'index i avec celui à l'index j
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
 }
 
 function resetGame(){
