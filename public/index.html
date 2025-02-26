@@ -62,9 +62,84 @@
             justify-content: center;
             align-items: center;
         }
+        /* Conteneur du menu */
+        .dropdown {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 100;
+        display: inline-block;
+        }
+        /* Bouton principal du menu */
+        .dropbtn {
+        background-color: #007BFF;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 1em;
+        }
+        /* Contenu du menu déroulant */
+        .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 200px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        /* Chaque option du menu */
+        .dropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        }
+        .dropdown-content a:hover {
+        background-color: #f1f1f1;
+        }
+        /* Afficher le menu au hover */
+        .dropdown:hover .dropdown-content {
+        display: block;
+        }
+        /* Styles pour une option contenant un sous-menu */
+        .submenu {
+        position: relative;
+        }
+        /* Le contenu du sous-menu */
+        .submenu-content {
+        display: none;
+        position: absolute;
+        left: 100%;
+        top: 0;
+        background-color: #f9f9f9;
+        min-width: 180px;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        /* Afficher le sous-menu au hover sur l'élément parent */
+        .submenu:hover .submenu-content {
+        display: block;
+        }
     </style>
 </head>
 <body>
+    <!-- Menu en fixed en haut à gauche -->
+    <div class="dropdown">
+        <button class="dropbtn">Menu</button>
+        <div class="dropdown-content">
+        <!-- Option cliquable -->
+        <a href="#" id="resetOption">Reset</a>
+        <!-- Option avec sous-menu -->
+        <div class="submenu">
+            <a href="#">Option avec sous-menu</a>
+            <div class="submenu-content">
+            <a href="#">Sous-option 1</a>
+            <a href="#">Sous-option 2</a>
+            <a href="#">Sous-option 3</a>
+            </div>
+        </div>
+        </div>
+    </div>
     <div class="container">
         <div class="container-points"><h1>Points: </h1><h1 id="points">0</h1></div>
         <!-- <span id="message"> Ceci est un test</span> -->
@@ -98,8 +173,7 @@
 
         // Créer la grille de carte
         createGrid(6);
-    </script>
-    <script>
+        
         let firstCard;
         let secondCard;
         async function flipCard(card) {
@@ -174,10 +248,10 @@
                             setTimeout(() => {
                                 firstCard.classList.remove('flipped');
                                 secondCard.classList.remove('flipped');
+                                firstCard.setAttribute('onclick', 'flipCard(this)');
+                                secondCard.setAttribute('onclick', 'flipCard(this)');
                                 firstCard = null;
                                 secondCard = null;
-                                firstCard.onclick = () => flipCard(firstCard);
-                                secondCard.onclick = () => flipCard(secondCard);
                             }, 500);
                         }
                     }
@@ -191,6 +265,33 @@
                 console.log('première carte retournée');
             }
         }
+
+        document.getElementById('resetOption').addEventListener('click', async function(e) {
+            e.preventDefault();
+            alert('Reset!');
+            // Vous pouvez ici ajouter le code nécessaire pour réinitialiser la partie, etc.
+            try {
+                const response = await fetch('/reset', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({}),
+                });
+
+                const data = await response.json();
+            } catch (error) {
+                console.error('Erreur lors de la réinsialisation de la partie :', error);
+            }
+
+            const cardsList = document.querySelectorAll('.grid .card');
+
+            cardsList.forEach(card => {
+                card.classList.remove('flipped');
+                card.setAttribute('onclick', 'flipCard(this)');
+                card.querySelector('img').src = 'images/cards/default/1.png';
+            });
+        });
     </script>
 </body>
 </html>

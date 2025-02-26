@@ -10,6 +10,14 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+app.post('/reset', (req, res) => {
+    const { data } = req.body; // Récupère l'ID de la carte envoyée depuis le frontend
+    resetGame();
+    console.log('Game reset');
+    
+    res.json({ status: "ok" });
+});
+
 app.post('/execute-script', (req, res) => {
     const { data } = req.body; // Récupère l'ID de la carte envoyée depuis le frontend
 
@@ -34,9 +42,20 @@ const images = {
     "10": "images/cards/default/10.png",
 };
 
-const cardsTemplate = [3, 7, 10, 2, 5, 1, 3, 2, 1, 1, 6, 6, 9, 9, 8, 2, 8, 10, 5, 1, 8, 4, 4, 4, 7, 5, 8, 4, 3, 7, 9, 3, 7, 5, 9, 2];
-const cards = cardsTemplate.sort((a, b) => 0.5 - Math.random());
+let cardsTemplate = [3, 7, 10, 2, 5, 1, 3, 2, 1, 1, 6, 6, 9, 9, 8, 2, 8, 10, 5, 1, 8, 4, 4, 4, 7, 5, 8, 4, 3, 7, 9, 3, 7, 5, 9, 2];
+let cards = shuffle(cardsTemplate);
 let cardsFind = [];
+
+function shuffle(array) {
+    return array.sort(() => Math.random() - 0.5);
+}
+
+function resetGame(){
+    cards = shuffle(cardsTemplate);
+    cardsFind = [];
+}
+
+resetGame(); // Initialiser le jeu
 
 app.post('/get-image', (req, res) => {
     const { data } = req.body; // Récupère l'ID de la carte envoyée depuis le frontend
