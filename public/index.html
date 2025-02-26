@@ -14,6 +14,10 @@
             margin: 0;
             background-color: #f0f0f0;
         }
+        body.dark {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
         .grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -120,6 +124,30 @@
         .submenu:hover .submenu-content {
         display: block;
         }
+
+        /* ===================== */
+        /* Thème Dark pour le menu */
+        /* ===================== */
+        body.dark .dropbtn {
+            background-color: #444;
+            color: #e0e0e0;
+        }
+        body.dark .dropdown-content {
+            background-color: #333;
+            color: #e0e0e0;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+        }
+        body.dark .dropdown-content a {
+            color: #e0e0e0;
+        }
+        body.dark .dropdown-content a:hover {
+            background-color: #444;
+        }
+        body.dark .submenu-content {
+            background-color: #333;
+            color: #e0e0e0;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -133,7 +161,7 @@
         <div class="submenu">
             <a href="#">Option avec sous-menu</a>
             <div class="submenu-content">
-            <a href="#">Sous-option 1</a>
+            <a href="#" id="toggleDarkMode">Dark Mode</a>
             <a href="#">Sous-option 2</a>
             <a href="#">Sous-option 3</a>
             </div>
@@ -291,6 +319,18 @@
                 card.setAttribute('onclick', 'flipCard(this)');
                 card.querySelector('img').src = 'images/cards/default/1.png';
             });
+        });
+
+        const toggleButton = document.getElementById('toggleDarkMode');
+
+        toggleButton.addEventListener('click', () => {
+            document.body.classList.toggle('dark');
+            // Optionnel : changer le texte du bouton en fonction du mode
+            if (document.body.classList.contains('dark')) {
+                toggleButton.textContent = 'Light Mode';
+            } else {
+                toggleButton.textContent = 'Dark Mode';
+            }
         });
     </script>
 </body>
