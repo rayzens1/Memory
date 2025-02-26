@@ -68,7 +68,9 @@ app.post('/get-image', (req, res) => {
     const { data } = req.body; // Récupère l'ID de la carte envoyée depuis le frontend
     const carteId = req.body.carteId;
     const imageKeys = Object.keys(images);
-    const randomImage = images[imageKeys[cards[carteId-1]]];
+    const randomImage = images[imageKeys[cards[carteId-1]-1]];
+
+    console.log(`Carte ${carteId} - ${cards[carteId-1]} : ${randomImage}`);
     
     res.json({ imagePath: randomImage });
 });
