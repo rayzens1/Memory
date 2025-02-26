@@ -176,6 +176,7 @@
         
     </div>
     <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script>
         function createGrid(size) {
             const grid = document.querySelector('.grid');
@@ -201,6 +202,34 @@
 
         // Créer la grille de carte
         createGrid(6);
+
+        function showConfetti() {
+            const duration = 5 * 1000; // Durée de l'animation : 5 secondes
+            const animationEnd = Date.now() + duration;
+            const defaults = { 
+                startVelocity: 30, 
+                spread: 360, 
+                ticks: 60, 
+                zIndex: 1000 
+            };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) {
+                return clearInterval(interval);
+                }
+                const particleCount = 50 * (timeLeft / duration);
+                // On démarre l'animation à des positions aléatoires sur l'écran
+                confetti(Object.assign({}, defaults, { 
+                particleCount,
+                origin: { x: randomInRange(0.1, 0.9), y: Math.random() - 0.2 }
+                }));
+            }, 250);
+        }
         
         let firstCard;
         let secondCard;
@@ -265,6 +294,9 @@
                             firstCard = null;
                             secondCard = null;
                             document.getElementById('points').innerText = parseInt(document.getElementById('points').innerText) + 1;
+                            if(document.getElementById('points').innerText == 18) {
+                                showConfetti();
+                            }
                             // const message = document.getElementById('message');
                             // message.innerText = 'Les cartes sont identiques ✅';
                             // message.color = 'green';
@@ -332,6 +364,8 @@
                 toggleButton.textContent = 'Dark Mode';
             }
         });
+
+        document.body.classList.toggle('dark');
     </script>
 </body>
 </html>
